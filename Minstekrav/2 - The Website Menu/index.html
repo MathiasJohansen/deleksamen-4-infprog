@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autofilled Menu</title>
+    <link href="menu.css" rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <h1>Exam 2</h1>
+        <!--La til en "onClick" med funksjonen som vi lager senere i koden -->
+        <button id="toggleMenu" onClick="menuCheck() " aria-label="Open the menu">Menu <img src="menuicon.png"
+                aria-hidden="true"></button>
+        <!--Fjerner innholdet til manyen under, fordi dette legges til i JS senere i koden-->
+        <nav id="menu">
+
+        </nav>
+    </header>
+    <script>
+        //Menystruktur (array på to nivåer: menupoints > categories > links in category)
+        const menuPoints = [
+            {
+                menuheader: "JavaScript resources", menulinks: [
+                    { url: "https://www.w3schools.com/js/default.asp", menutext: "W3Schools" },
+                    { url: "https://developer.mozilla.org/en-US/docs/Web/JavaScript", menutext: "Mozilla Developer Network" },
+                    { url: "http://jsforcats.com/", menutext: "JavaScript for cats" }
+                ]
+            },
+            {
+                menuheader: "HTML resources", menulinks: [
+                    { url: "https://www.w3schools.com/html/default.asp", menutext: "W3Schools" },
+                    { url: "https://validator.w3.org/", menutext: "W3 Validator" },
+                ]
+            },
+            {
+                menuheader: "CSS resources", menulinks: [
+                    { url: "https://www.w3schools.com/css/default.asp", menutext: "W3Schools" },
+                    { url: "https://css-tricks.com/", menutext: "CSS Tricks" },
+                ]
+            }
+        ]
+
+        //Lagre knapp- og meny-element for bruk i koden:
+        const menu = document.getElementById("menu")
+        const button = document.getElementById("toggleMenu")
+
+        /* TODO:
+         * Funksjon for å åpne/lukke meny:
+         * Hvis #menu inneholder klassen .active: 
+         * 1) fjern klassen
+         * 2) endre knappen til å inneholde teksten Menu og bildet menuicon.png
+         * Hvis ikke:
+         * 1) legg til klassen .active på #menu
+         * 2) endre knappen til å inneholde teksten Close og bildet closeicon.png
+         */
+        /*
+        Lager en funksjon som sjekker om menu id'en inneholder acttive klassen
+        Jeg bruker .classlist.contains, for å sjekke etter .active klasssen. hvis dette er tilfellet, da fjerner vi klassen ved hjelp av .classlist.remove og så gjør vi om HTML-en til "toggleMenu" id'en ved hjelp av button variabele som allerede var lagd. i dette tilfellet så endres den til `Menu <img src="menuicon.png" aria-hidden="true">`
+        Hvis menu ikke inneholder .active klassen, da legger vi den til ved hjelp av .classlist.add, i tillegg så endrer vi toggleMenu id-en til "Close <img src="closeicon.png" aria-hidden="true">"
+        */
+        function menuCheck() {
+            if (menu.classList.contains("active")) {
+                menu.classList.remove("active")
+                button.innerHTML = `Menu <img src="menuicon.png" aria-hidden="true">`
+            } else {
+                menu.classList.add("active")
+                button.innerHTML = `Close <img src="closeicon.png" aria-hidden="true">`
+            }
+        }
+
+
+        //Variabel for meny-HTML
+        //TODO: Skal ikke starte som en tom streng, må inneholde et punkt for å møte oppgaveteksten...
+        //Legger til innholdet i menu-taggen her, slik at det er det som er på starten av listen, og resten kommer etter, ved hjelp av +=
+        let menuHTML = `
+            <ul>
+                <li><a href="index.html">Home</a></li>
+            </ul>`
+
+        //Gå gjennom første nivå av menupoints-array
+        menuPoints.map(category => {
+            //TODO: Forbered HTML med overskrift og listestart
+
+            //TODO: Gå gjennom array på andre nivå (menulinks)
+            //TODO: For hver menulink: fyll menuHTML med listeelementer og link
+
+            //TODO: Avslutt liste
+            /*
+            begynner med menuHTML += for å legge til ett nytt liste element for vært punkt.
+            inni <ul> så legger jeg til en <h2>tag for overskriften. Det blir til category.menuheader.
+            Under dette så mapper jeg menulinks arrayen, for å returnere en template literal med den nye HTML'en.
+            Jeg bruker altså den samme <li> linjen som er brukt fra før av og legger da inn de riktige objektene i koden. altså for URl så legger jeg inn menuLink.url og for navnet på linken, så blir det menuLink.menutext.
+            Kilder:
+            https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/join
+            */
+            menuHTML += `
+                        <ul>
+                            <h2>${category.menuheader}</h2>
+                            ${category.menulinks.map(menuLink => `<li><a href="${menuLink.url}">${menuLink.menutext}</a></li>`).join("")}
+                        </ul>`
+        })
+
+        //TODO: Skriv ut HTML til <nav>:
+        //Legger menuHTML inn i HTML under menu id'en
+        document.getElementById("menu").innerHTML = menuHTML
+    </script>
+</body>
+
+</html>

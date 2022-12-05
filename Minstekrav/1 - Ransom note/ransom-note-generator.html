@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ransom Note Generator</title>
+    <link href="ransom-style.css" rel="stylesheet">
+</head>
+
+<body>
+    <section id="input-form">
+        <p>
+            <label for="text">Enter text to ransomize:</label>
+            <textarea id="text" name="name" rows="8"></textarea>
+        </p>
+        <button onClick="makeRansom()">Ransomize text</button>
+    </section>
+    <section id="ransom-note">
+
+    </section>
+    <script>
+        //Prepare array with allowed characters
+        const allowedCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+        const allowedCharactersArray = Array.from(allowedCharacters)
+
+        //Create function to run on button click
+        function makeRansom() {
+            //TODO: Fetch text from textarea
+            /*
+            Lager en variabel for teksten i textarea. Henter denne ved hjelp av .value funksjonen. teksten ligger på "text" id'en
+            kilde:
+            https://www.w3schools.com/jsref/prop_text_value.asp
+            */
+            let textarea = document.getElementById("text").value
+
+            //TODO: Ensure correct capitalization of text string fetched
+            /*
+            Legger til en .toUpperCase funksjon på textarea variabelen slik at alt som ligger der blir upper case
+            kilde:
+            https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/toUpperCase
+            */
+            textarea = textarea.toUpperCase()
+
+            //TODO: Make capitalized text string into array
+            /*
+            Lager en ny variabel som jeg kaller for textArray. Der legger jeg til funksjonen .split med ingenting i parameteret, da jeg bare vil dele opp innholdet. .split lager da dette om til en array.
+            kilde:
+            https://www.w3schools.com/jsref/jsref_split.asp
+            */
+            let textArray = textarea.split("")
+            console.log(textArray)
+            //TODO: Prepare empty string variable for HTML
+            //Lager en tom variabel her. 
+            let emptyText = ""
+
+            /* TODO:
+             * 1) Go through array of characters
+             * 2) Check if capitalized array character is allowed:
+             *    If it is, put HTML for image output into variable for HTML.
+             *    If not, put the character from the array into variable for HTML.
+             * Rules to ALSO check: 
+             *    1) If character in array is a period (.), question mark (?), or exclamation mark (!),
+             *       use the end.png-file (image of exclamation mark)
+             *    2) If character is a space, insert <span class="space-separator"></span> into variabel for HTML
+             * */
+            /*
+            Sender in en funksjon i en forEach løkke. Bruker forEach for å bare loope gjennom arrayen. 
+            Først så sjekker vi om det vi har skrevet ligger i allowedCharactersArray. dette returnerer en true eller false. 
+            hvis dette er true og alle karakterene er allowed, da legger vi til en img tag med png for bokstaven det gjelder, altså letter parameteret som vi sender inn. 
+            Hvis det ikke ligger i array så sjekker vi om det er noen av tegnene som vi skal sjekke etter (., !, ?). Om det er tilfellet så legger vi heller til en img tag med end.png istedet.
+            Deretter gjør vi samme sjekken men med mellomrom, hvis dette er tilfellet så legger vi inn "<span class="space-separator"></span>", slik som opgaven forteller.
+            Helt til slutt, hvis ingenting av dette er tilfellet, så legger vi bare til bokstaven som en bokstav.  
+            kilde: 
+            https://www.w3schools.com/jsref/jsref_includes.asp
+            https://www.w3schools.com/js/js_if_else.asp
+            https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach
+            */
+            textArray.forEach(letter => {
+                if (allowedCharactersArray.includes(letter)) {
+                    emptyText += `<img src="images/${letter}.png">`
+                } else if (letter == "." || letter == "!" || letter == "?") {
+                    emptyText += `<img src="images/end.png">`
+                } else if (letter == " ") {
+                    emptyText += `<span class="space-separator"></span>`
+                } else {
+                    emptyText += letter
+                }
+            })
+
+            //TODO: Write HTML output to #ransom-note
+            //Legger til emptyTExt variabelen på id ransom.note
+            document.getElementById("ransom-note").innerHTML = emptyText
+        }
+    </script>
+</body>
+
+</html>
