@@ -94,7 +94,9 @@
             inni <ul> så legger jeg til en <h2>tag for overskriften. Det blir til category.menuheader.
             Under dette så mapper jeg menulinks arrayen, for å returnere en template literal med den nye HTML'en.
             Jeg bruker altså den samme <li> linjen som er brukt fra før av og legger da inn de riktige objektene i koden. altså for URl så legger jeg inn menuLink.url og for navnet på linken, så blir det menuLink.menutext.
+            På slutten så bruker jeg .join funksjonen, dette fjerner kome tegnene mellom de nye <li> punktene om kommer.
             Kilder:
+            https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/join
             https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/join
             */
             menuHTML += `
